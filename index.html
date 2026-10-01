@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT SHOP - ร้านอุปกรณ์ไอที</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, "Noto Sans Thai", sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    color: #222;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #111827, #2563eb);
+    color: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.cart-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hero */
+.hero {
+    padding: 70px 6%;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    color: #111827;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #4b5563;
+}
+
+/* Search */
+.search-area {
+    padding: 30px 6%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search-area input,
+.search-area select {
+    padding: 13px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* Products */
+.products {
+    padding: 20px 6% 60px;
+}
+
+.products h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,.07);
+    transition: .25s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+}
+
+.product img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 18px;
+}
+
+.product-info h3 {
+    margin-bottom: 8px;
+}
+
+.category {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.price {
+    color: #2563eb;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-btn:hover {
+    background: #1d4ed8;
+}
+
+/* Cart */
+.cart {
+    position: fixed;
+    right: -420px;
+    top: 0;
+    width: 390px;
+    max-width: 95%;
+    height: 100vh;
+    background: white;
+    z-index: 999;
+    box-shadow: -5px 0 25px rgba(0,0,0,.2);
+    padding: 25px;
+    transition: .3s;
+    overflow-y: auto;
+}
+
+.cart.active {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close-cart {
+    border: none;
+    background: #eee;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+.cart-item img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.qty {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.qty button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-total {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Checkout */
+.checkout {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.checkout-box {
+    background: white;
+    width: 500px;
+    max-width: 100%;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.checkout-box h2 {
+    margin-bottom: 20px;
+}
+
+.checkout-box input,
+.checkout-box textarea,
+.checkout-box select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.confirm-btn {
+    width: 100%;
+    padding: 13px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.cancel-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    background: #eee;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+/* Mobile */
+@media(max-width:600px) {
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .cart {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">💻 IT SHOP</div>
+
+    <button class="cart-btn" onclick="openCart()">
+        🛒 ตะกร้า (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+<section class="hero">
+    <h1>อุปกรณ์ IT ครบ จบในที่เดียว</h1>
+    <p>คอมพิวเตอร์ อุปกรณ์เสริม Gaming และอุปกรณ์ Network</p>
+</section>
+
+<section class="search-area">
+    <input
+        type="text"
+        id="search"
+        placeholder="🔍 ค้นหาสินค้า..."
+        oninput="renderProducts()"
+    >
+
+    <select id="category" onchange="renderProducts()">
+        <option value="all">สินค้าทั้งหมด</option>
+        <option value="Computer">คอมพิวเตอร์</option>
+        <option value="Gaming">Gaming</option>
+        <option value="Accessory">อุปกรณ์เสริม</option>
+        <option value="Network">Network</option>
+    </select>
+</section>
+
+<section class="products">
+
+    <h2>สินค้าแนะนำ</h2>
+
+    <div class="product-grid" id="productList"></div>
+
+</section>
+
+<!-- CART -->
+
+<div class="cart" id="cart">
+
+    <div class="cart-header">
+        <h2>🛒 ตะกร้าสินค้า</h2>
+        <button class="close-cart" onclick="closeCart()">✕</button>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-total">
+        รวมทั้งหมด: ฿<span id="cartTotal">0</span>
+    </div>
+
+    <button class="checkout-btn" onclick="openCheckout()">
+        ดำเนินการสั่งซื้อ
+    </button>
+
+</div>
+
+<!-- CHECKOUT -->
+
+<div class="checkout" id="checkout">
+
+    <div class="checkout-box">
+
+        <h2>📦 ข้อมูลสำหรับจัดส่ง</h2>
+
+        <input id="customerName" type="text" placeholder="ชื่อ-นามสกุล">
+
+        <input id="customerPhone" type="tel" placeholder="เบอร์โทรศัพท์">
+
+        <input id="customerEmail" type="email" placeholder="อีเมล">
+
+        <textarea
+            id="customerAddress"
+            rows="4"
+            placeholder="ที่อยู่สำหรับจัดส่ง"
+        ></textarea>
+
+        <select id="payment">
+            <option value="">เลือกวิธีชำระเงิน</option>
+            <option>โอนเงินผ่านธนาคาร</option>
+            <option>เก็บเงินปลายทาง</option>
+            <option>บัตรเครดิต / เดบิต</option>
+        </select>
+
+        <button class="confirm-btn" onclick="confirmOrder()">
+            ยืนยันการสั่งซื้อ
+        </button>
+
+        <button class="cancel-btn" onclick="closeCheckout()">
+            ยกเลิก
+        </button>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 IT SHOP | ร้านอุปกรณ์ IT</p>
+</footer>
+
+<script>
+
+const products = [
+
+    {
+        id: 1,
+        name: "Gaming Mouse RGB",
+        category: "Gaming",
+        price: 790,
+        image: "https://images.unsplash.com/photo-1527814050087-3793815479db"
+    },
+
+    {
+        id: 2,
+        name: "Mechanical Keyboard",
+        category: "Gaming",
+        price: 1590,
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3"
+    },
+
+    {
+        id: 3,
+        name: "Gaming Headset",
+        category: "Gaming",
+        price: 1290,
+        image: "https://images.unsplash.com/photo-1599669454699-248893623440"
+    },
+
+    {
+        id: 4,
+        name: "27 inch Monitor",
+        category: "Computer",
+        price: 5990,
+        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf"
+    },
+
+    {
+        id: 5,
+        name: "Wireless Router",
+        category: "Network",
+        price: 1890,
+        image: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2"
+    },
+
+    {
+        id: 6,
+        name: "USB-C Hub",
+        category: "Accessory",
+        price: 990,
+        image: "https://images.unsplash.com/photo-1625842268584-8f3296236761"
+    },
+
+    {
+        id: 7,
+        name: "Webcam Full HD",
+        category: "Accessory",
+        price: 1490,
+        image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04"
+    },
+
+    {
+        id: 8,
+        name: "SSD 1TB",
+        category: "Computer",
+        price: 2390,
+        image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b"
+    }
+
+];
+
+let cart = [];
+
+function formatPrice(price) {
+    return price.toLocaleString("th-TH");
+}
+
+function renderProducts() {
+
+    const search =
+        document.getElementById("search").value.toLowerCase();
+
+    const category =
+        document.getElementById("category").value;
+
+    const list =
+        document.getElementById("productList");
+
+    const filtered = products.filter(product => {
+
+        const matchSearch =
+            product.name.toLowerCase().includes(search);
+
+        const matchCategory =
+            category === "all" ||
+            product.category === category;
+
+        return matchSearch && matchCategory;
+
+    });
+
+    list.innerHTML = filtered.map(product => `
+
+        <div class="product">
+
+            <img src="${product.image}" alt="${product.name}">
+
+            <div class="product-info">
+
+                <h3>${product.name}</h3>
+
+                <div class="category">
+                    ${product.category}
+                </div>
+
+                <div class="price">
+                    ฿${formatPrice(product.price)}
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart(${product.id})"
+                >
+                    🛒 เพิ่มลงตะกร้า
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+function addToCart(id) {
+
+    const product = products.find(p => p.id === id);
+
+    const existing = cart.find(item => item.id === id);
+
+    if (existing) {
+        existing.quantity++;
+    } else {
+
+        cart.push({
+            ...product,
+            quantity: 1
+        });
+
+    }
+
+    updateCart();
+
+    alert("เพิ่มสินค้าเข้าตะกร้าแล้ว");
+
+}
+
+function updateCart() {
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    let total = 0;
+    let count = 0;
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML =
+            "<p>ยังไม่มีสินค้าในตะกร้า</p>";
+
+    } else {
+
+        cartItems.innerHTML = cart.map(item => {
+
+            total += item.price * item.quantity;
+            count += item.quantity;
+
+            return `
+
+                <div class="cart-item">
+
+                    <img src="${item.image}">
+
+                    <div class="cart-item-info">
+
+                        <strong>${item.name}</strong>
+
+                        <div>
+                            ฿${formatPrice(item.price)}
+                        </div>
+
+                        <div class="qty">
+
+                            <button
+                                onclick="changeQty(${item.id}, -1)"
+                            >
+                                −
+                            </button>
+
+                            <span>${item.quantity}</span>
+
+                            <button
+                                onclick="changeQty(${item.id}, 1)"
+                            >
+                                +
+                            </button>
+
+                            <button
+                                onclick="removeItem(${item.id})"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+    }
+
+    document.getElementById("cartTotal").textContent =
+        formatPrice(total);
+
+    document.getElementById("cartCount").textContent =
+        count;
+
+}
+
+function changeQty(id, amount) {
+
+    const item = cart.find(item => item.id === id);
+
+    if (!item) return;
+
+    item.quantity += amount;
+
+    if (item.quantity <= 0) {
+
+        cart = cart.filter(item => item.id !== id);
+
+    }
+
+    updateCart();
+
+}
+
+function removeItem(id) {
+
+    cart = cart.filter(item => item.id !== id);
+
+    updateCart();
+
+}
+
+function openCart() {
+
+    document.getElementById("cart")
+        .classList.add("active");
+
+}
+
+function closeCart() {
+
+    document.getElementById("cart")
+        .classList.remove("active");
+
+}
+
+function openCheckout() {
+
+    if (cart.length === 0) {
+
+        alert("กรุณาเลือกสินค้าก่อนสั่งซื้อ");
+
+        return;
+
+    }
+
+    document.getElementById("checkout")
+        .style.display = "flex";
+
+}
+
+function closeCheckout() {
+
+    document.getElementById("checkout")
+        .style.display = "none";
+
+}
+
+function confirmOrder() {
+
+    const name =
+        document.getElementById("customerName").value;
+
+    const phone =
+        document.getElementById("customerPhone").value;
+
+    const email =
+        document.getElementById("customerEmail").value;
+
+    const address =
+        document.getElementById("customerAddress").value;
+
+    const payment =
+        document.getElementById("payment").value;
+
+    if (!name || !phone || !email || !address || !payment) {
+
+        alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+
+        return;
+
+    }
+
+    let total = cart.reduce(
+        (sum, item) =>
+            sum + item.price * item.quantity,
+        0
+    );
+
+    const orderNumber =
+        "IT" + Date.now().toString().slice(-8);
+
+    alert(
+        "สั่งซื้อสำเร็จ!\\n\\n" +
+        "เลขที่คำสั่งซื้อ: " + orderNumber +
+        "\\nยอดชำระ: ฿" + formatPrice(total) +
+        "\\n\\nขอบคุณที่ใช้บริการ IT SHOP"
+    );
+
+    cart = [];
+
+    updateCart();
+
+    closeCheckout();
+
+    closeCart();
+
+    document.getElementById("customerName").value = "";
+    document.getElementById("customerPhone").value = "";
+    document.getElementById("customerEmail").value = "";
+    document.getElementById("customerAddress").value = "";
+    document.getElementById("payment").value = "";
+
+}
+
+renderProducts();
+updateCart();
+
+</script>
+
+</body>
+</html>
